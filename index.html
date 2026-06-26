@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fate / Grand Order - Saint Quartz Shop</title>
+
+    <style>
+        :root {
+            --primary: #1a2b4c;
+            --accent: #dfb15b;
+            --bg: #f0f4f8;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+            --shadow: rgba(26, 43, 76, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 10px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto 40px auto;
+        }
+
+        .item {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(223, 177, 91, 0.3);
+            border-color: var(--accent);
+        }
+
+        .item img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin: 0 auto 15px auto;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .item p {
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 10px 0 15px 0;
+            color: var(--primary);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-group {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 65px;
+            padding: 6px;
+            text-align: center;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--primary);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--accent);
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 30px;
+            background: var(--card-bg);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px var(--shadow);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .controls label {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #cbd5e1;
+            font-size: 0.95rem;
+            outline: none;
+            color: var(--text);
+            font-weight: 600;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        select:focus {
+            border-color: var(--accent);
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(223, 177, 91, 0.2);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background: #c99d4b;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        #totalPrice {
+            margin-top: 25px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: left;
+            background: var(--primary);
+            color: white;
+            padding: 20px 25px;
+            width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(26, 43, 76, 0.3);
+            border-left: 5px solid var(--accent);
+        }
+
+        #totalPrice strong {
+            color: #fff;
+        }
+
+        #totalPrice .grand-total {
+            font-size: 1.4rem;
+            color: var(--accent);
+            border-top: 1px solid rgba(255,255,255,0.2);
+            margin-top: 10px;
+            padding-top: 10px;
+            display: block;
+        }
+
+        #totalPrice .quartz-count {
+            font-size: 1rem;
+            color: #a8d8f0;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            margin-top: 8px;
+            padding-top: 8px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Fate / Grand Order</h1>
+
+<div class="menu">
+    <!-- Item 1 -->
+    <div class="item">
+        <img src="D:\BIT32\HTML of Things\OrderApp - Real World application\Saintquartz.webp" alt="quartz_1">
+        <p>1 Saint Quartz<br>₱49.00</p>
+        <div class="input-group">
+            <label for="qty-quartz1">Qty:</label>
+            <input type="number" id="qty-quartz1" value="0" min="0">
+        </div>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="item">
+        <img src="D:\BIT32\HTML of Things\OrderApp - Real World application\Saintquartz.webp" alt="quartz_5">
+        <p>4 SQ + 1 Bonus (Free!)<br>₱199.00</p>
+        <div class="input-group">
+            <label for="qty-quartz5">Qty:</label>
+            <input type="number" id="qty-quartz5" value="0" min="0">
+        </div>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="item">
+        <img src="D:\BIT32\HTML of Things\OrderApp - Real World application\Saintquartz.webp" alt="quartz_18">
+        <p>12 SQ + 6 Bonus (Free!)<br>₱599.00</p>
+        <div class="input-group">
+            <label for="qty-quartz18">Qty:</label>
+            <input type="number" id="qty-quartz18" value="0" min="0">
+        </div>
+    </div>
+
+    <!-- Item 4 -->
+    <div class="item">
+        <img src="D:\BIT32\HTML of Things\OrderApp - Real World application\Saintquartz.webp" alt="quartz_41">
+        <p>25 SQ + 16 Bonus (Free!)<br>₱1,190.00</p>
+        <div class="input-group">
+            <label for="qty-quartz41">Qty:</label>
+            <input type="number" id="qty-quartz41" value="0" min="0">
+        </div>
+    </div>
+
+    <!-- Item 5 -->
+    <div class="item">
+        <img src="D:\BIT32\HTML of Things\OrderApp - Real World application\Saintquartz.webp" alt="quartz_76">
+        <p>42 SQ + 34 Bonus (Free!)<br>₱2,390.00</p>
+        <div class="input-group">
+            <label for="qty-quartz76">Qty:</label>
+            <input type="number" id="qty-quartz76" value="0" min="0">
+        </div>
+    </div>
+
+    <!-- Item 6 -->
+    <div class="item">
+        <img src="D:\BIT32\HTML of Things\OrderApp - Real World application\Saintquartz.webp" alt="quartz_167">
+        <p>86 SQ + 81 Bonus (Free!)<br>₱3,990.00</p>
+        <div class="input-group">
+            <label for="qty-quartz167">Qty:</label>
+            <input type="number" id="qty-quartz167" value="0" min="0">
+        </div>
+    </div>
+</div>
+
+<div class="controls">
+    <label for="discount"><strong>Discount Layer:</strong></label>
+    <select id="discount">
+        <option value="0">None</option>
+        <option value="0.25">Senior Citizen (25%)</option>
+        <option value="0.20">Membership Card (20%)</option>
+        <option value="0.15">Manager (15%)</option>
+    </select>
+    <br><br>
+    <button onclick="calculateOrder()">Compute Total</button>
+</div>
+
+<div id="totalPrice">
+    SubTotal: ₱0.00<br>
+    Discount: ₱0.00<br>
+    <strong class="grand-total">Total Price: ₱0.00</strong>
+    <span class="quartz-count">Total Quartz: 0 SQ</span>
+</div>
+
+<script>
+function calculateOrder() {
+    const prices = {
+        quartz1: 49.00,
+        quartz5: 199.00,
+        quartz18: 599.00,
+        quartz41: 1190.00,
+        quartz76: 2390.00,
+        quartz167: 3990.00
+    };
+
+    const sqValues = {
+        quartz1: 1,
+        quartz5: 5,
+        quartz18: 18,
+        quartz41: 41,
+        quartz76: 76,
+        quartz167: 167
+    };
+
+    const qty1   = parseInt(document.getElementById("qty-quartz1").value)   || 0;
+    const qty5   = parseInt(document.getElementById("qty-quartz5").value)   || 0;
+    const qty18  = parseInt(document.getElementById("qty-quartz18").value)  || 0;
+    const qty41  = parseInt(document.getElementById("qty-quartz41").value)  || 0;
+    const qty76  = parseInt(document.getElementById("qty-quartz76").value)  || 0;
+    const qty167 = parseInt(document.getElementById("qty-quartz167").value) || 0;
+
+    const subtotal =
+        (qty1   * prices.quartz1)   +
+        (qty5   * prices.quartz5)   +
+        (qty18  * prices.quartz18)  +
+        (qty41  * prices.quartz41)  +
+        (qty76  * prices.quartz76)  +
+        (qty167 * prices.quartz167);
+
+    const totalSQ =
+        (qty1   * sqValues.quartz1)   +
+        (qty5   * sqValues.quartz5)   +
+        (qty18  * sqValues.quartz18)  +
+        (qty41  * sqValues.quartz41)  +
+        (qty76  * sqValues.quartz76)  +
+        (qty167 * sqValues.quartz167);
+
+    const discountRate = parseFloat(document.getElementById("discount").value) || 0;
+    const discount = subtotal * discountRate;
+    const total = subtotal - discount;
+
+    document.getElementById("totalPrice").innerHTML = `
+        SubTotal: ₱${subtotal.toFixed(2)}<br>
+        Discount: ₱${discount.toFixed(2)}<br>
+        <strong class="grand-total">Total Price: ₱${total.toFixed(2)}</strong>
+        <span class="quartz-count">Total Quartz: ${totalSQ} SQ</span>
+    `;
+}
+</script>
+
+</body>
+</html>
